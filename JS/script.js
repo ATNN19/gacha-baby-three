@@ -14,22 +14,31 @@ const allImages = [
 let danhSachConLai = [...allImages];
 
 function randomImage() {
-    if (danhSachConLai.length === 0) {
+    if (danhSachConLai.length < 2) {
         danhSachConLai = [...allImages];
     }
 
-    let index1 = Math.floor(Math.random() * danhSachConLai.length);
-    let image1 =danhSachConLai.splice(index1,1)[0];
-    let index2 = Math.floor(Math.random() * danhSachConLai.length);
-    let image2 = danhSachConLai.splice(index2,1)[0];
-
+    const shuffled = danhSachConLai.sort(() => 0.5 - Math.random());
+    const [image1, image2] = shuffled.splice(0,2);
+    danhSachConLai = shuffled;
     return [image1, image2];
 }
 
 function nextRandom() {
     const [image1, image2] = randomImage();
-    document.getElementById("image1").src = image1;
-    document.getElementById("image2").src = image2;
+    const img1 = document.getElementById("image1");
+    const img2 = document.getElementById("image2");
+
+    // fade effect
+    img1.style.opacity = 0;
+    img2.style.opacity = 0;
+
+    setTimeout(() => {
+        img1.src = image1;
+        img2.src = image2;
+        img1.style.opacity = 1;
+        img2.style.opacity = 1;
+    }, 200);
 }
 
 document.addEventListener("DOMContentLoaded", function() {
